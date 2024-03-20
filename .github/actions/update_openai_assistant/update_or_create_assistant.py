@@ -97,7 +97,7 @@ def update_or_create_assistant(root_directory="./assistants"):
                 git_commit_and_push(config_file_path)
             else:
                 print(
-                    f"Updatid assistant: {assistant_name} with id {assistant_id}"
+                    f"Updating assistant: {assistant_name} with id {assistant_id}"
                 )
                 if not assistant_id:
                     assistant_id = my_assistant.id
