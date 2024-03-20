@@ -37,8 +37,10 @@ def update_or_create_assistant(root_directory="./assistants"):
         full_directory_path = os.path.join(root_directory, directory)
         # ignore directory named example
         if directory == "example":
+            print(f"Ignoring directory: {directory}")
             continue
         if os.path.isdir(full_directory_path):
+            print(f"Working with directory: {directory}")
             config_file_path = os.path.join(full_directory_path, "config.yml")
             config = read_config_yaml(config_file_path)
             assistant_name = config["assistant"]["name"]
