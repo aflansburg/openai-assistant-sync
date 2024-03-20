@@ -1,0 +1,28 @@
+{
+  "name": "just_a_test",
+  "parameters": {
+    "type": "object",
+    "properties": {
+      "messages": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        }
+      },
+      "choices": {
+        "type": "string",
+        "description": "An enumm mcool",
+        "enum": [
+          "a",
+          "b",
+          "c",
+          "d"
+        ]
+      }
+    },
+    "required": [
+      "messages"
+    ]
+  },
+  "description": "Test function!."
+}

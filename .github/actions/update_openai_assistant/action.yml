@@ -1,0 +1,31 @@
+name: Update OpenAI Assistant
+description: Update the OpenAI Assistant with the latest content
+inputs:
+  ASSISTANT_ID:
+    description: "The ID of the OpenAI assistant to update"
+    required: true
+  OPENAI_API_KEY:
+    description: "The API key for the OpenAI API"
+    required: true
+runs:
+  using: "composite"
+  steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: "3.12.x"
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r .github/actions/update_openai_assistant/requirements.txt
+      shell: bash
+    - name: Tree me
+      shell: bash
+      run: tree
+    - name: Update OpenAI Assistant
+      shell: bash
+      env:
+        OPENAI_API_KEY: ${{ inputs.OPENAI_API_KEY }}
+      run: python .github/actions/update_openai_assistant/update_or_create_assistant.py
