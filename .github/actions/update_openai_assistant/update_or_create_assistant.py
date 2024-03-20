@@ -24,7 +24,9 @@ def read_config_yaml(file_path):
 def git_commit_and_push(file_path):
     git_actor = os.environ.get("GITHUB_ACTOR", "github-actions")
     os.system(f'git config --global user.name "{git_actor}"')
-    os.system(f'git config --global user.email "{git_actor}@users.noreply.github.com"')
+    os.system(
+        f'git config --global user.email "{git_actor}@users.noreply.github.com"'
+    )
     os.system(f"git add {file_path}")
     os.system('git commit -m "Update assistant ID"')
     os.system("git push origin main")
@@ -33,6 +35,9 @@ def git_commit_and_push(file_path):
 def update_or_create_assistant(root_directory="./assistants"):
     for directory in os.listdir(root_directory):
         full_directory_path = os.path.join(root_directory, directory)
+        # ignore directory named example
+        if directory == "example":
+            continue
         if os.path.isdir(full_directory_path):
             config_file_path = os.path.join(full_directory_path, "config.yml")
             config = read_config_yaml(config_file_path)
@@ -62,7 +67,9 @@ def update_or_create_assistant(root_directory="./assistants"):
 
             if assistant_id:
                 try:
-                    my_assistant = client.beta.assistants.retrieve(assistant_id)
+                    my_assistant = client.beta.assistants.retrieve(
+                        assistant_id
+                    )
                 except Exception:
                     my_assistant = None
             else:
@@ -74,7 +81,8 @@ def update_or_create_assistant(root_directory="./assistants"):
                     instructions=instructions,
                     name=assistant_name,
                     tools=[
-                        {"type": "function", "function": func} for func in functions
+                        {"type": "function", "function": func}
+                        for func in functions
                     ],
                     model=model,
                 )
@@ -86,7 +94,9 @@ def update_or_create_assistant(root_directory="./assistants"):
 
                 git_commit_and_push(config_file_path)
             else:
-                print(f"Updatid assistant: {assistant_name} with id {assistant_id}")
+                print(
+                    f"Updatid assistant: {assistant_name} with id {assistant_id}"
+                )
                 if not assistant_id:
                     assistant_id = my_assistant.id
                     config["assistant"]["id"] = assistant_id
@@ -97,7 +107,8 @@ def update_or_create_assistant(root_directory="./assistants"):
                     instructions=instructions,
                     name=assistant_name,
                     tools=[
-                        {"type": "function", "function": func} for func in functions
+                        {"type": "function", "function": func}
+                        for func in functions
                     ],
                     model=model,
                 )
